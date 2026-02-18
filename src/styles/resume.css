@@ -1,0 +1,124 @@
+/* Resume Template Styles - Optimised for A4 PDF */
+.resume-template {
+  background: white;
+  padding: 40px 50px;
+  width: 100%;
+  max-width: 210mm;
+  /* A4 width */
+  min-height: 297mm;
+  /* A4 height */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", "Helvetica", sans-serif;
+  /* Safe for ATS */
+  color: #000;
+  /* Strict Black for ATS */
+  line-height: 1.4;
+  box-sizing: border-box;
+  font-size: 11pt;
+  /* Body text standard */
+}
+
+/* Header */
+.resume-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 15px;
+}
+
+.resume-header h1 {
+  margin: 0 0 5px 0;
+  text-transform: uppercase;
+  font-size: 24pt;
+  /* Name standard */
+  letter-spacing: 1px;
+}
+
+.resume-role {
+  font-size: 14pt;
+  color: #000;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.contact-info {
+  font-size: 10pt;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.contact-link {
+  color: #000;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+/* Sections */
+.resume-section {
+  margin-bottom: 20px;
+}
+
+.resume-section h3 {
+  border-bottom: 1px solid #000;
+  padding-bottom: 3px;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  font-size: 14pt;
+  /* Heading standard */
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 0.5px;
+}
+
+/* Items */
+.resume-item {
+  margin-bottom: 12px;
+}
+
+.resume-item strong {
+  font-weight: 700;
+}
+
+.resume-item span {
+  color: #000;
+}
+
+.resume-item p {
+  margin: 3px 0 0 0;
+  font-size: 11pt;
+}
+
+/* Skills Grid */
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  gap: 5px 15px;
+}
+
+.skills-grid li {
+  font-size: 11pt;
+  position: relative;
+  padding-left: 12px;
+}
+
+.skills-grid li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #000;
+  font-size: 11pt;
+  line-height: 1.4;
+}
