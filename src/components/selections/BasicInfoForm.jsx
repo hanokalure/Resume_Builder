@@ -27,14 +27,13 @@ const BasicInfoForm = () => {
 
             <div className="form-group">
                 <label>Email</label>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div className="form-row-split">
                     <input
                         type="email"
                         name="email"
                         value={basicInfo.email}
                         onChange={handleChange}
                         placeholder="john@example.com"
-                        style={{ flex: 1 }}
                     />
                     <input
                         type="text"
@@ -42,7 +41,6 @@ const BasicInfoForm = () => {
                         value={basicInfo.emailText || ""}
                         onChange={handleChange}
                         placeholder="Display Text (Optional)"
-                        style={{ flex: 1 }}
                     />
                 </div>
             </div>
@@ -60,14 +58,13 @@ const BasicInfoForm = () => {
 
             <div className="form-group">
                 <label>LinkedIn</label>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div className="form-row-split">
                     <input
                         type="text"
                         name="linkedin"
                         value={basicInfo.linkedin}
                         onChange={handleChange}
                         placeholder="linkedin.com/in/johndoe"
-                        style={{ flex: 1 }}
                     />
                     <input
                         type="text"
@@ -75,21 +72,19 @@ const BasicInfoForm = () => {
                         value={basicInfo.linkedinText || ""}
                         onChange={handleChange}
                         placeholder="Display Text (Optional)"
-                        style={{ flex: 1 }}
                     />
                 </div>
             </div>
 
             <div className="form-group">
                 <label>GitHub</label>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div className="form-row-split">
                     <input
                         type="text"
                         name="github"
                         value={basicInfo.github}
                         onChange={handleChange}
                         placeholder="github.com/johndoe"
-                        style={{ flex: 1 }}
                     />
                     <input
                         type="text"
@@ -97,7 +92,6 @@ const BasicInfoForm = () => {
                         value={basicInfo.githubText || ""}
                         onChange={handleChange}
                         placeholder="Display Text (Optional)"
-                        style={{ flex: 1 }}
                     />
                 </div>
             </div>

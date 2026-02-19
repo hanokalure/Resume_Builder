@@ -24,7 +24,6 @@ const ResumeTemplate = () => {
             {/* Header Section */}
             <header className="resume-header">
                 <h1>{basicInfo.name || "YOUR NAME"}</h1>
-                {state.role && <p className="resume-role">{state.role}</p>}
                 <div className="contact-info">
                     {basicInfo.email && (
                         <>

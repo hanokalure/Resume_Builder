@@ -106,6 +106,12 @@ const resumeReducer = (state, action) => {
           p.id === action.payload.id ? action.payload : p
         ),
       };
+    case "DELETE_PROJECT":
+      return {
+        ...state,
+        masterProjects: state.masterProjects.filter((p) => p.id !== action.payload),
+        selectedProjects: state.selectedProjects.filter((p) => p.id !== action.payload),
+      };
     case "TOGGLE_PROJECT": {
       const project = action.payload;
       const isSelected = state.selectedProjects.some((p) => p.id === project.id);
@@ -143,6 +149,12 @@ const resumeReducer = (state, action) => {
         selectedCertificates: state.selectedCertificates.map((c) =>
           c.id === action.payload.id ? action.payload : c
         ),
+      };
+    case "DELETE_CERTIFICATE":
+      return {
+        ...state,
+        masterCertificates: state.masterCertificates.filter((c) => c.id !== action.payload),
+        selectedCertificates: state.selectedCertificates.filter((c) => c.id !== action.payload),
       };
     case "TOGGLE_CERTIFICATE": {
       const cert = action.payload;
@@ -204,7 +216,7 @@ const resumeReducer = (state, action) => {
           githubText: "GitHub Portfolio"
         },
         summary: "Highly motivated Full Stack Developer with 5+ years of experience designing and building scalable web applications. Proficient in React, Node.js, and cloud technologies. Proven track record of leading teams and delivering high-quality software solutions.",
-        role: "Full Stack Developer",
+        role: "",
         masterSkills: [
           { id: "1", name: "React", tags: ["Frontend Developer", "Full Stack Developer"] },
           { id: "2", name: "Node.js", tags: ["Backend Developer", "Full Stack Developer"] },

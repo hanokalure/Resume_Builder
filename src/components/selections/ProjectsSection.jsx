@@ -56,6 +56,10 @@ const ProjectsSection = () => {
         dispatch({ type: "TOGGLE_PROJECT", payload: project });
     };
 
+    const handleDelete = (id) => {
+        dispatch({ type: "DELETE_PROJECT", payload: id });
+    };
+
     return (
         <div className="section-form">
             <h3>Projects</h3>
@@ -129,7 +133,10 @@ const ProjectsSection = () => {
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={() => handleEdit(project)} style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'blue' }}>✎</button>
+                            <div style={{ display: 'flex', gap: '5px' }}>
+                                <button onClick={() => handleEdit(project)} style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'blue' }}>✎</button>
+                                <button onClick={() => handleDelete(project.id)} className="btn-delete">×</button>
+                            </div>
                         </div>
                     );
                 })}

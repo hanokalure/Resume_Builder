@@ -1,7 +1,6 @@
 import { useState } from "react";
 import BasicInfoForm from "../selections/BasicInfoForm";
 import SummaryForm from "../selections/SummaryForm";
-import RoleSelector from "../selections/RoleSelector";
 import SkillsSection from "../selections/SkillsSection";
 import ProjectsSection from "../selections/ProjectsSection";
 import CertificatesSection from "../selections/CertificatesSection";
@@ -49,10 +48,6 @@ const FormPanel = () => {
       </div>
 
       <div className="form-content">
-        <div style={{ marginBottom: "1.5rem" }}>
-          <RoleSelector />
-        </div>
-
         <AccordionSection
           title="Basic Info"
           isOpen={openSection === "Basic Info"}

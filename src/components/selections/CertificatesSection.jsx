@@ -39,6 +39,10 @@ const CertificatesSection = () => {
         dispatch({ type: "TOGGLE_CERTIFICATE", payload: cert });
     };
 
+    const handleDelete = (id) => {
+        dispatch({ type: "DELETE_CERTIFICATE", payload: id });
+    };
+
     return (
         <div className="section-form">
             <h3>Certifications</h3>
@@ -101,7 +105,10 @@ const CertificatesSection = () => {
                                     {cert.url && <div style={{ fontSize: "10px", color: "blue" }}>{cert.url}</div>}
                                 </div>
                             </label>
-                            <button onClick={() => handleEdit(cert)} style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'blue', padding: '0 5px' }}>✎</button>
+                            <div style={{ display: 'flex', gap: '5px' }}>
+                                <button onClick={() => handleEdit(cert)} style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'blue', padding: '0 5px' }}>✎</button>
+                                <button onClick={() => handleDelete(cert.id)} className="btn-delete">×</button>
+                            </div>
                         </div>
                     );
                 })}
