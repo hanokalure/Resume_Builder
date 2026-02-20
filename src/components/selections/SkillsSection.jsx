@@ -47,8 +47,7 @@ const SkillsSection = () => {
     };
 
     return (
-        <div className="section-form">
-            <h3>Skills</h3>
+        <div>
 
             {/* Add New Skill */}
             <div className="add-skill-form">

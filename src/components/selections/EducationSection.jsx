@@ -40,8 +40,7 @@ const EducationSection = () => {
     };
 
     return (
-        <div className="section-form">
-            <h3>Education</h3>
+        <div>
 
             <div className="form-group">
                 <input

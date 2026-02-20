@@ -40,8 +40,7 @@ const ExperienceSection = () => {
     };
 
     return (
-        <div className="section-form">
-            <h3>Experience</h3>
+        <div>
 
             <div className="form-group">
                 <input

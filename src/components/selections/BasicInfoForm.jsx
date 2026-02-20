@@ -12,8 +12,7 @@ const BasicInfoForm = () => {
     };
 
     return (
-        <div className="section-form">
-            <h3>Basic Information</h3>
+        <div>
             <div className="form-group">
                 <label>Full Name</label>
                 <input

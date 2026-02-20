@@ -1,21 +1,21 @@
 /* Resume Template Styles - Optimised for A4 PDF */
 .resume-template {
   background: white;
-  padding: 40px 50px;
+  padding: 30px 45px;
   width: 100%;
   max-width: 210mm;
   /* A4 width */
-  min-height: 297mm;
-  /* A4 height */
+  height: 297mm;
+  /* Strict A4 height */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   font-family: "Arial", "Helvetica", sans-serif;
   /* Safe for ATS */
   color: #000;
   /* Strict Black for ATS */
-  line-height: 1.4;
+  line-height: 1.3;
   box-sizing: border-box;
   font-size: 11pt;
-  /* Body text standard */
+  /* Body text standard (10-12pt) */
 }
 
 /* Header */
@@ -27,10 +27,10 @@
 }
 
 .resume-header h1 {
-  margin: 0 0 5px 0;
+  margin: 0 0 3px 0;
   text-transform: uppercase;
-  font-size: 24pt;
-  /* Name standard */
+  font-size: 22pt;
+  /* Prominent Name for ATS */
   letter-spacing: 1px;
 }
 
@@ -65,7 +65,7 @@
 
 /* Sections */
 .resume-section {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .resume-section h3 {
@@ -100,12 +100,12 @@
 
 /* Skills Grid */
 .skills-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   list-style-type: none;
   padding: 0;
   margin: 0;
-  gap: 5px 15px;
+  gap: 5px;
 }
 
 .skills-grid li {
@@ -121,4 +121,23 @@
   color: #000;
   font-size: 11pt;
   line-height: 1.4;
+}
+
+@media print {
+  .resume-template {
+    margin: 0;
+    box-shadow: none;
+    min-height: auto;
+    height: 100%;
+    overflow: hidden;
+    border: none;
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
 }

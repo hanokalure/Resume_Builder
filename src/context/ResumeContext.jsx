@@ -95,6 +95,7 @@ const resumeReducer = (state, action) => {
       return {
         ...state,
         masterProjects: [...state.masterProjects, action.payload],
+        selectedProjects: [...state.selectedProjects, action.payload],
       };
     case "UPDATE_PROJECT":
       return {
@@ -139,6 +140,7 @@ const resumeReducer = (state, action) => {
       return {
         ...state,
         masterCertificates: [...state.masterCertificates, action.payload],
+        selectedCertificates: [...state.selectedCertificates, action.payload],
       };
     case "UPDATE_CERTIFICATE":
       return {
@@ -242,20 +244,20 @@ const resumeReducer = (state, action) => {
           { id: "2", company: "WebCorp", role: "Software Engineer", duration: "2018 - 2022", description: "• Developed and maintained multiple React-based web applications.\n• Collaborated with UX/UI designers to implement responsive and accessible interfaces.\n• Integrated third-party APIs for payment processing and data analytics." }
         ],
         masterProjects: [
-          { id: '1', title: 'E-commerce Platform', description: 'Built a full-featured e-commerce platform using MERN stack with Stripe integration.', tags: ['Full Stack Developer'] },
+          { id: '1', title: 'Resume Builder - Markdown & PDF Generator | Live Application', description: 'Architected a responsive resume creation tool using React.js and Vite, featuring real-time preview and ATS-optimized PDF export via html2pdf.js. Implemented complex state management with Context API for dynamic form handling, mobile-first responsive design, and local storage persistence for seamless user experience.', tags: ['Frontend Developer', 'Full Stack Developer'] },
           { id: '2', title: 'Task Manager App', description: 'Developed a real-time task management tool with WebSocket updates.', tags: ['Frontend Developer'] }
         ],
         selectedProjects: [
-          { id: '1', title: 'E-commerce Platform', description: 'Built a full-featured e-commerce platform using MERN stack with Stripe integration.', tags: ['Full Stack Developer'] },
+          { id: '1', title: 'Resume Builder - Markdown & PDF Generator | Live Application', description: 'Architected a responsive resume creation tool using React.js and Vite, featuring real-time preview and ATS-optimized PDF export via html2pdf.js. Implemented complex state management with Context API for dynamic form handling, mobile-first responsive design, and local storage persistence for seamless user experience.', tags: ['Frontend Developer', 'Full Stack Developer'] },
           { id: '2', title: 'Task Manager App', description: 'Developed a real-time task management tool with WebSocket updates.', tags: ['Frontend Developer'] }
         ],
         masterCertificates: [
-          { id: '1', name: 'AWS Certified Solutions Architect', issuer: 'Amazon Web Services', year: '2023', url: 'https://aws.amazon.com/certification/' },
-          { id: '2', name: 'Meta Front-End Developer', issuer: 'Meta', year: '2022', url: '' }
+          { id: '1', name: 'AWS Certified Solutions Architect', url: 'https://aws.amazon.com/certification/' },
+          { id: '2', name: 'Meta Front-End Developer', url: '' }
         ],
         selectedCertificates: [
-          { id: '1', name: 'AWS Certified Solutions Architect', issuer: 'Amazon Web Services', year: '2023', url: 'https://aws.amazon.com/certification/' },
-          { id: '2', name: 'Meta Front-End Developer', issuer: 'Meta', year: '2022', url: '' }
+          { id: '1', name: 'AWS Certified Solutions Architect', url: 'https://aws.amazon.com/certification/' },
+          { id: '2', name: 'Meta Front-End Developer', url: '' }
         ]
       };
     default:

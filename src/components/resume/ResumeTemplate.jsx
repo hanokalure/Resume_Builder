@@ -143,7 +143,6 @@ const ResumeTemplate = () => {
                                 ) : (
                                     <strong>{cert.name}</strong>
                                 )}
-                                - {cert.issuer} ({cert.year})
                             </li>
                         ))}
                     </ul>

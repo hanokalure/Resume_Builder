@@ -8,8 +8,6 @@ const CertificatesSection = () => {
     const [newCert, setNewCert] = useState({
         id: null,
         name: "",
-        issuer: "",
-        year: "",
         url: "",
     });
 
@@ -22,13 +20,13 @@ const CertificatesSection = () => {
         } else {
             // Add
             const cert = {
-                id: Date.now().toString(),
                 ...newCert,
+                id: Date.now().toString(),
             };
             dispatch({ type: "ADD_CERTIFICATE", payload: cert });
         }
 
-        setNewCert({ id: null, name: "", issuer: "", year: "", url: "" });
+        setNewCert({ id: null, name: "", url: "" });
     };
 
     const handleEdit = (cert) => {
@@ -44,9 +42,7 @@ const CertificatesSection = () => {
     };
 
     return (
-        <div className="section-form">
-            <h3>Certifications</h3>
-
+        <div>
             <div className="form-group">
                 <input
                     type="text"
@@ -57,27 +53,11 @@ const CertificatesSection = () => {
                 />
                 <input
                     type="text"
-                    value={newCert.issuer}
-                    onChange={(e) => setNewCert({ ...newCert, issuer: e.target.value })}
-                    placeholder="Issuer"
+                    value={newCert.url}
+                    onChange={(e) => setNewCert({ ...newCert, url: e.target.value })}
+                    placeholder="URL (Optional)"
                     style={{ marginBottom: "5px", width: "100%" }}
                 />
-                <div style={{ display: "flex", gap: "10px" }}>
-                    <input
-                        type="text"
-                        value={newCert.year}
-                        onChange={(e) => setNewCert({ ...newCert, year: e.target.value })}
-                        placeholder="Year"
-                        style={{ marginBottom: "5px", flex: 1 }}
-                    />
-                    <input
-                        type="text"
-                        value={newCert.url}
-                        onChange={(e) => setNewCert({ ...newCert, url: e.target.value })}
-                        placeholder="URL (Optional)"
-                        style={{ marginBottom: "5px", flex: 2 }}
-                    />
-                </div>
 
                 <button onClick={handleAddCert} className="btn-add">
                     {newCert.id ? "Update Certificate" : "Add Certificate"}
@@ -100,7 +80,7 @@ const CertificatesSection = () => {
                                 />
                                 <div style={{ flex: 1 }}>
                                     <span>
-                                        <strong>{cert.name}</strong> - {cert.issuer} ({cert.year})
+                                        <strong>{cert.name}</strong>
                                     </span>
                                     {cert.url && <div style={{ fontSize: "10px", color: "blue" }}>{cert.url}</div>}
                                 </div>

@@ -12,8 +12,7 @@ const SummaryForm = () => {
     };
 
     return (
-        <div className="section-form">
-            <h3>Professional Summary</h3>
+        <div>
             <div className="form-group">
                 <textarea
                     id="summary"

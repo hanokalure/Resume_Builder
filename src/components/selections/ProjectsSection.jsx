@@ -28,8 +28,8 @@ const ProjectsSection = () => {
         } else {
             // Add
             const project = {
-                id: Date.now().toString(),
                 ...newProject,
+                id: Date.now().toString(),
                 tags: selectedTags.length > 0 ? selectedTags : ["General"],
             };
             dispatch({ type: "ADD_PROJECT", payload: project });
@@ -61,9 +61,7 @@ const ProjectsSection = () => {
     };
 
     return (
-        <div className="section-form">
-            <h3>Projects</h3>
-
+        <div>
             <div className="form-group">
                 <input
                     type="text"
