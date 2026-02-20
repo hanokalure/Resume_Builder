@@ -2,7 +2,7 @@
 
 A modern, high-performance React application designed to help users create Applicant Tracking System (ATS) friendly resumes. Features a real-time split-screen editor, instant PDF export, and local data persistence.
 
-![Resume Builder Preview](https://resume-builder-beta-blond.vercel.app/)
+[Resume Builder Preview](https://resume-builder-beta-blond.vercel.app/)
 
 ## 🚀 Features
 
