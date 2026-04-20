@@ -3,6 +3,7 @@ import FormPanel from "./components/layout/FormPanel";
 import PreviewPanel from "./components/layout/PreviewPanel";
 import "./styles/layout.css";
 
+
 function App() {
   const [activeTab, setActiveTab] = useState("editor"); // 'editor' or 'preview'
 
