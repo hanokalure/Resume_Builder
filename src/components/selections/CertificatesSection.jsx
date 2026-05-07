@@ -61,7 +61,6 @@ const CertificatesSection = () => {
                 url: cert.url || "",
             };
             dispatch({ type: "ADD_CERTIFICATE", payload: newCertEntry });
-            dispatch({ type: "TOGGLE_CERTIFICATE", payload: newCertEntry });
         }
         setSelectedProfileCertIndex("");
     };

@@ -70,7 +70,6 @@ const ProjectsSection = () => {
                 tags: proj.tags && proj.tags.length > 0 ? proj.tags : ["General"]
             };
             dispatch({ type: "ADD_PROJECT", payload: newProjEntry });
-            dispatch({ type: "TOGGLE_PROJECT", payload: newProjEntry });
         }
         setSelectedProfileProjIndex("");
     };

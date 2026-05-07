@@ -83,7 +83,7 @@ const resumeReducer = (state, action) => {
       if (!role || role === "Custom") return state;
 
       const filteredSkills = state.masterSkills.filter((skill) =>
-        skill.tags.includes(role)
+        skill.tags.includes(role) || skill.tags.includes("General")
       );
 
       return {
@@ -128,7 +128,7 @@ const resumeReducer = (state, action) => {
       if (!role || role === "Custom") return state;
 
       const filteredProjects = state.masterProjects.filter((project) =>
-        project.tags.includes(role)
+        project.tags.includes(role) || project.tags.includes("General")
       );
 
       return {
