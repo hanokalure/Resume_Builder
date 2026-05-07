@@ -122,7 +122,13 @@ const ResumeTemplate = () => {
                     <h3>Projects</h3>
                     {selectedProjects.map((project, index) => (
                         <div key={project.id || index} className="resume-item">
-                            <strong>{project.title}</strong>
+                            {project.url ? (
+                                <a href={project.url.startsWith('http') ? project.url : `https://${project.url}`} target="_blank" rel="noopener noreferrer" style={{ color: "black", textDecoration: "none" }}>
+                                    <strong>{project.title}</strong>
+                                </a>
+                            ) : (
+                                <strong>{project.title}</strong>
+                            )}
                             <p>{project.description}</p>
                         </div>
                     ))}

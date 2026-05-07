@@ -12,6 +12,7 @@ const ProjectsSection = () => {
         id: null,
         title: "",
         description: "",
+        url: "",
     });
     const [selectedTags, setSelectedTags] = useState([]);
     
@@ -55,7 +56,7 @@ const ProjectsSection = () => {
             dispatch({ type: "ADD_PROJECT", payload: project });
         }
 
-        setNewProject({ id: null, title: "", description: "" });
+        setNewProject({ id: null, title: "", description: "", url: "" });
         setSelectedTags([]);
     };
 
@@ -128,6 +129,15 @@ const ProjectsSection = () => {
                     placeholder="Project Title"
                     style={{ marginBottom: "5px", width: "100%" }}
                 />
+                <input
+                    type="text"
+                    value={newProject.url || ""}
+                    onChange={(e) =>
+                        setNewProject({ ...newProject, url: e.target.value })
+                    }
+                    placeholder="Live URL (e.g. https://...)"
+                    style={{ marginBottom: "5px", width: "100%" }}
+                />
                 <textarea
                     value={newProject.description}
                     onChange={(e) =>
@@ -179,6 +189,7 @@ const ProjectsSection = () => {
                                 />
                                 <div className="item-content">
                                     <strong>{project.title}</strong>
+                                    {project.url && <div style={{ fontSize: "10px", color: "blue" }}>{project.url}</div>}
                                     <p style={{ fontSize: "12px", margin: "2px 0", whiteSpace: "pre-line" }}>
                                         {project.description}
                                     </p>
