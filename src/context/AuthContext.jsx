@@ -71,6 +71,13 @@ export const AuthProvider = ({ children }) => {
         redirectTo: `${window.location.origin}/`
       }
     }),
+    signInWithGithub: () => supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        scopes: 'read:user user:email',
+        redirectTo: `${window.location.origin}/`
+      }
+    }),
     signOut: () => supabase.auth.signOut(),
   };
 
