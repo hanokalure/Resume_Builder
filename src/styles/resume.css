@@ -43,12 +43,13 @@
 }
 
 .contact-info {
-  font-size: 10pt;
+  font-size: 9.5pt;
   color: #000;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 15px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 6px;
 }
 
 .contact-link {

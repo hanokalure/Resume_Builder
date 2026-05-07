@@ -437,3 +437,78 @@ button {
     width: 100%;
   }
 }
+/* Header Styles */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: var(--nav-height);
+  background: white;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  letter-spacing: -0.5px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.header-btn {
+  background: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-btn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.header-btn.danger {
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.header-btn.danger:hover {
+  background: var(--danger-color);
+  color: white;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  min-height: 0; /* Critical for flex child scrolling */
+  overflow: hidden;
+  position: relative;
+}
+
+@media screen and (max-width: 600px) {
+  .header-btn {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  .logo {
+    font-size: 1.1rem;
+  }
+}

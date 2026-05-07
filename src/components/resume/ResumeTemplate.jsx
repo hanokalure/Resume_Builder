@@ -72,8 +72,8 @@ const ResumeTemplate = () => {
             {education.length > 0 && (
                 <section className="resume-section">
                     <h3>Education</h3>
-                    {education.map(edu => (
-                        <div key={edu.id} className="resume-item">
+                    {education.map((edu, index) => (
+                        <div key={edu.id || index} className="resume-item">
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>{edu.institution}</strong>
                                 <span>{edu.year}</span>
@@ -92,8 +92,8 @@ const ResumeTemplate = () => {
                 <section className="resume-section">
                     <h3>Skills</h3>
                     <ul className="skills-grid">
-                        {selectedSkills.map(skill => (
-                            <li key={skill.id}>{skill.name}</li>
+                        {selectedSkills.map((skill, index) => (
+                            <li key={skill.id || index}>{skill.name}</li>
                         ))}
                     </ul>
                 </section>
@@ -103,8 +103,8 @@ const ResumeTemplate = () => {
             {experience.length > 0 && (
                 <section className="resume-section">
                     <h3>Experience</h3>
-                    {experience.map(exp => (
-                        <div key={exp.id} className="resume-item">
+                    {experience.map((exp, index) => (
+                        <div key={exp.id || index} className="resume-item">
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                                 <strong>{exp.company}</strong>
                                 <span>{exp.duration}</span>
@@ -120,8 +120,8 @@ const ResumeTemplate = () => {
             {selectedProjects.length > 0 && (
                 <section className="resume-section">
                     <h3>Projects</h3>
-                    {selectedProjects.map(project => (
-                        <div key={project.id} className="resume-item">
+                    {selectedProjects.map((project, index) => (
+                        <div key={project.id || index} className="resume-item">
                             <strong>{project.title}</strong>
                             <p>{project.description}</p>
                         </div>
@@ -134,8 +134,8 @@ const ResumeTemplate = () => {
                 <section className="resume-section">
                     <h3>Certifications</h3>
                     <ul style={{ paddingLeft: "20px", margin: 0 }}>
-                        {selectedCertificates.map(cert => (
-                            <li key={cert.id} style={{ marginBottom: "5px" }}>
+                        {selectedCertificates.map((cert, index) => (
+                            <li key={cert.id || index} style={{ marginBottom: "5px" }}>
                                 {cert.url ? (
                                     <a href={cert.url.startsWith('http') ? cert.url : `https://${cert.url}`} target="_blank" rel="noopener noreferrer" style={{ color: "black", textDecoration: "none" }}>
                                         <strong>{cert.name}</strong>

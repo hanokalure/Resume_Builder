@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useResume } from "../../context/ResumeContext";
+import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../supabaseClient";
 
 const ProjectsSection = () => {
     const { state, dispatch } = useResume();
     const { masterProjects, selectedProjects, role } = state;
+    const { user } = useAuth();
 
     const [newProject, setNewProject] = useState({
         id: null,
@@ -11,6 +14,9 @@ const ProjectsSection = () => {
         description: "",
     });
     const [selectedTags, setSelectedTags] = useState([]);
+    
+    const [profileProjects, setProfileProjects] = useState([]);
+    const [selectedProfileProjIndex, setSelectedProfileProjIndex] = useState("");
 
     const predefinedRoles = [
         "Frontend Developer",
@@ -18,15 +24,29 @@ const ProjectsSection = () => {
         "Full Stack Developer",
     ];
 
+    useEffect(() => {
+        if (user) {
+            const fetchProfileProjects = async () => {
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('projects')
+                    .eq('id', user.id)
+                    .single();
+                if (data && data.projects) {
+                    setProfileProjects(data.projects);
+                }
+            };
+            fetchProfileProjects();
+        }
+    }, [user]);
+
     const handleAddProject = () => {
         if (!newProject.title.trim()) return;
 
         if (newProject.id) {
-            // Update
             const updatedProject = { ...newProject, tags: selectedTags };
             dispatch({ type: "UPDATE_PROJECT", payload: updatedProject });
         } else {
-            // Add
             const project = {
                 ...newProject,
                 id: Date.now().toString(),
@@ -37,6 +57,22 @@ const ProjectsSection = () => {
 
         setNewProject({ id: null, title: "", description: "" });
         setSelectedTags([]);
+    };
+
+    const handleAddFromProfile = () => {
+        if (selectedProfileProjIndex === "") return;
+        const proj = profileProjects[selectedProfileProjIndex];
+        
+        if (!masterProjects.some(p => p.title === proj.title)) {
+            const newProjEntry = {
+                ...proj,
+                id: Date.now().toString(),
+                tags: proj.tags && proj.tags.length > 0 ? proj.tags : ["General"]
+            };
+            dispatch({ type: "ADD_PROJECT", payload: newProjEntry });
+            dispatch({ type: "TOGGLE_PROJECT", payload: newProjEntry });
+        }
+        setSelectedProfileProjIndex("");
     };
 
     const handleEdit = (project) => {
@@ -62,6 +98,27 @@ const ProjectsSection = () => {
 
     return (
         <div>
+            {profileProjects.length > 0 && (
+                <div className="add-skill-form" style={{ marginBottom: '15px', background: '#f8fafc', padding: '10px', borderRadius: '5px' }}>
+                    <small style={{ display: 'block', marginBottom: '5px' }}>Add from Your Profile:</small>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <select 
+                            value={selectedProfileProjIndex} 
+                            onChange={(e) => setSelectedProfileProjIndex(e.target.value)}
+                            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                        >
+                            <option value="">-- Select Project --</option>
+                            {profileProjects.map((proj, index) => (
+                                <option key={index} value={index}>{proj.title}</option>
+                            ))}
+                        </select>
+                        <button onClick={handleAddFromProfile} className="btn-add" disabled={selectedProfileProjIndex === ""}>
+                            Add
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="form-group">
                 <input
                     type="text"
@@ -107,11 +164,11 @@ const ProjectsSection = () => {
                 Master List <small>(Auto-filtered for: {role})</small>
             </h4>
             <div className="items-list">
-                {masterProjects.map((project) => {
+                {masterProjects.map((project, index) => {
                     const isSelected = selectedProjects.some((p) => p.id === project.id);
                     return (
                         <div
-                            key={project.id}
+                            key={project.id || index}
                             className={`item-card ${isSelected ? "selected" : ""}`}
                         >
                             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', flex: 1 }}>
@@ -123,7 +180,7 @@ const ProjectsSection = () => {
                                 />
                                 <div className="item-content">
                                     <strong>{project.title}</strong>
-                                    <p style={{ fontSize: "12px", margin: "2px 0" }}>
+                                    <p style={{ fontSize: "12px", margin: "2px 0", whiteSpace: "pre-line" }}>
                                         {project.description}
                                     </p>
                                     <div style={{ fontSize: "10px", color: "#666" }}>

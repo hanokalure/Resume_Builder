@@ -1,36 +1,36 @@
-import { useState } from "react";
-import FormPanel from "./components/layout/FormPanel";
-import PreviewPanel from "./components/layout/PreviewPanel";
-import "./styles/layout.css";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Builder from './components/Builder';
+import Auth from './components/Auth';
+import Profile from './components/Profile';
 
 function App() {
-  const [activeTab, setActiveTab] = useState("editor"); // 'editor' or 'preview'
-
   return (
-    <div className="app-container">
-      <div className={`panel-container ${activeTab === "editor" ? "active" : ""}`}>
-        <FormPanel />
-      </div>
-      <div className={`panel-container ${activeTab === "preview" ? "active" : "preview-hidden-mobile"}`}>
-        <PreviewPanel />
-      </div>
-
-      {/* Mobile Navigation */}
-      <nav className="mobile-nav">
-        <button 
-          className={`nav-btn ${activeTab === "editor" ? "active" : ""}`}
-          onClick={() => setActiveTab("editor")}
-        >
-          ✏️ Editor
-        </button>
-        <button 
-          className={`nav-btn ${activeTab === "preview" ? "active" : ""}`}
-          onClick={() => setActiveTab("preview")}
-        >
-          📄 Preview
-        </button>
-      </nav>
-    </div>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/auth" element={<Auth />} />
+          <Route 
+            path="/profile" 
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRoute>
+                <Builder />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

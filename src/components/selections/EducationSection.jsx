@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useResume } from "../../context/ResumeContext";
+import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../supabaseClient";
 
 const EducationSection = () => {
     const { state, dispatch } = useResume();
     const { education } = state;
+    const { user } = useAuth();
 
     const [newEdu, setNewEdu] = useState({
         id: null,
@@ -14,14 +17,31 @@ const EducationSection = () => {
         gradeType: "CGPA",
     });
 
+    const [profileEdu, setProfileEdu] = useState([]);
+    const [selectedProfileEduIndex, setSelectedProfileEduIndex] = useState("");
+
+    useEffect(() => {
+        if (user) {
+            const fetchProfileEdu = async () => {
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('education')
+                    .eq('id', user.id)
+                    .single();
+                if (data && data.education) {
+                    setProfileEdu(data.education);
+                }
+            };
+            fetchProfileEdu();
+        }
+    }, [user]);
+
     const handleAddEdu = () => {
         if (!newEdu.institution.trim()) return;
 
         if (newEdu.id) {
-            // Update
             dispatch({ type: "UPDATE_EDUCATION", payload: newEdu });
         } else {
-            // Add
             const edu = {
                 id: Date.now().toString(),
                 ...newEdu,
@@ -29,6 +49,21 @@ const EducationSection = () => {
             dispatch({ type: "ADD_EDUCATION", payload: edu });
         }
         setNewEdu({ id: null, institution: "", degree: "", year: "", gpa: "", gradeType: "CGPA" });
+    };
+
+    const handleAddFromProfile = () => {
+        if (selectedProfileEduIndex === "") return;
+        const edu = profileEdu[selectedProfileEduIndex];
+        
+        // Check if already in resume
+        if (!education.some(e => e.institution === edu.institution && e.degree === edu.degree)) {
+            const newEduEntry = {
+                id: Date.now().toString(),
+                ...edu,
+            };
+            dispatch({ type: "ADD_EDUCATION", payload: newEduEntry });
+        }
+        setSelectedProfileEduIndex("");
     };
 
     const handleEdit = (edu) => {
@@ -41,6 +76,26 @@ const EducationSection = () => {
 
     return (
         <div>
+            {profileEdu.length > 0 && (
+                <div className="add-skill-form" style={{ marginBottom: '15px', background: '#f8fafc', padding: '10px', borderRadius: '5px' }}>
+                    <small style={{ display: 'block', marginBottom: '5px' }}>Add from Your Profile:</small>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <select 
+                            value={selectedProfileEduIndex} 
+                            onChange={(e) => setSelectedProfileEduIndex(e.target.value)}
+                            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                        >
+                            <option value="">-- Select Education --</option>
+                            {profileEdu.map((edu, index) => (
+                                <option key={index} value={index}>{edu.institution} - {edu.degree}</option>
+                            ))}
+                        </select>
+                        <button onClick={handleAddFromProfile} className="btn-add" disabled={selectedProfileEduIndex === ""}>
+                            Add
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <div className="form-group">
                 <input
@@ -67,9 +122,9 @@ const EducationSection = () => {
                     />
                 </div>
 
-                <div style={{ display: "flex", gap: "10px", alignItems: "center", marginBottom: "5px" }}>
-                    <div style={{ display: "flex", gap: "5px" }}>
-                        <label style={{ fontSize: "12px", display: "flex", alignItems: "center", gap: "2px" }}>
+                <div className="form-row-split" style={{ alignItems: "center", marginBottom: "5px" }}>
+                    <div style={{ display: "flex", gap: "15px", flexShrink: 0 }}>
+                        <label style={{ fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", cursor: "pointer" }}>
                             <input
                                 type="radio"
                                 name="gradeType"
@@ -78,7 +133,7 @@ const EducationSection = () => {
                                 onChange={(e) => setNewEdu({ ...newEdu, gradeType: e.target.value })}
                             /> CGPA
                         </label>
-                        <label style={{ fontSize: "12px", display: "flex", alignItems: "center", gap: "2px" }}>
+                        <label style={{ fontSize: "14px", display: "flex", alignItems: "center", gap: "5px", cursor: "pointer" }}>
                             <input
                                 type="radio"
                                 name="gradeType"
@@ -93,7 +148,7 @@ const EducationSection = () => {
                         value={newEdu.gpa}
                         onChange={(e) => setNewEdu({ ...newEdu, gpa: e.target.value })}
                         placeholder={newEdu.gradeType === "CGPA" ? "e.g. 8.5" : "e.g. 85%"}
-                        style={{ flex: 1 }}
+                        style={{ flex: 1, minWidth: 0 }}
                     />
                 </div>
 
@@ -105,8 +160,8 @@ const EducationSection = () => {
             <hr />
 
             <div className="items-list">
-                {education.map((edu) => (
-                    <div key={edu.id} className="item-card">
+                {education.map((edu, index) => (
+                    <div key={edu.id || index} className="item-card">
                         <div className="item-content">
                             <strong>{edu.institution}</strong>
                             <div>{edu.degree}</div>

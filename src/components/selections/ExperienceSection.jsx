@@ -1,26 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useResume } from "../../context/ResumeContext";
+import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../supabaseClient";
 
 const ExperienceSection = () => {
     const { state, dispatch } = useResume();
     const { experience } = state;
+    const { user } = useAuth();
 
     const [newExp, setNewExp] = useState({
-        id: null, // Track if editing
+        id: null,
         company: "",
         role: "",
         duration: "",
         description: "",
     });
 
+    const [profileExp, setProfileExp] = useState([]);
+    const [selectedProfileExpIndex, setSelectedProfileExpIndex] = useState("");
+
+    useEffect(() => {
+        if (user) {
+            const fetchProfileExp = async () => {
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('experience')
+                    .eq('id', user.id)
+                    .single();
+                if (data && data.experience) {
+                    setProfileExp(data.experience);
+                }
+            };
+            fetchProfileExp();
+        }
+    }, [user]);
+
     const handleAddExp = () => {
         if (!newExp.company.trim()) return;
 
         if (newExp.id) {
-            // Edit mode
             dispatch({ type: "UPDATE_EXPERIENCE", payload: newExp });
         } else {
-            // Add mode
             const exp = {
                 id: Date.now().toString(),
                 ...newExp,
@@ -29,6 +49,20 @@ const ExperienceSection = () => {
         }
 
         setNewExp({ id: null, company: "", role: "", duration: "", description: "" });
+    };
+
+    const handleAddFromProfile = () => {
+        if (selectedProfileExpIndex === "") return;
+        const exp = profileExp[selectedProfileExpIndex];
+        
+        if (!experience.some(e => e.company === exp.company && e.role === exp.role)) {
+            const newExpEntry = {
+                id: Date.now().toString(),
+                ...exp,
+            };
+            dispatch({ type: "ADD_EXPERIENCE", payload: newExpEntry });
+        }
+        setSelectedProfileExpIndex("");
     };
 
     const handleEdit = (exp) => {
@@ -41,6 +75,26 @@ const ExperienceSection = () => {
 
     return (
         <div>
+            {profileExp.length > 0 && (
+                <div className="add-skill-form" style={{ marginBottom: '15px', background: '#f8fafc', padding: '10px', borderRadius: '5px' }}>
+                    <small style={{ display: 'block', marginBottom: '5px' }}>Add from Your Profile:</small>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <select 
+                            value={selectedProfileExpIndex} 
+                            onChange={(e) => setSelectedProfileExpIndex(e.target.value)}
+                            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                        >
+                            <option value="">-- Select Experience --</option>
+                            {profileExp.map((exp, index) => (
+                                <option key={index} value={index}>{exp.company} - {exp.role}</option>
+                            ))}
+                        </select>
+                        <button onClick={handleAddFromProfile} className="btn-add" disabled={selectedProfileExpIndex === ""}>
+                            Add
+                        </button>
+                    </div>
+                </div>
+            )}
 
             <div className="form-group">
                 <input
@@ -79,12 +133,12 @@ const ExperienceSection = () => {
             <hr />
 
             <div className="items-list">
-                {experience.map((exp) => (
-                    <div key={exp.id} className="item-card">
+                {experience.map((exp, index) => (
+                    <div key={exp.id || index} className="item-card">
                         <div className="item-content">
                             <strong>{exp.company}</strong> - {exp.role}
                             <div><small>{exp.duration}</small></div>
-                            <p style={{ fontSize: "12px", marginTop: "5px" }}>{exp.description}</p>
+                            <p style={{ fontSize: "12px", marginTop: "5px", whiteSpace: "pre-line" }}>{exp.description}</p>
                         </div>
                         <div style={{ display: 'flex', gap: '5px' }}>
                             <button onClick={() => handleEdit(exp)} style={{ cursor: 'pointer', background: 'none', border: 'none', color: 'blue' }}>✎</button>

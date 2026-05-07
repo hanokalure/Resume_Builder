@@ -1,8 +1,33 @@
+import { useEffect } from "react";
 import { useResume } from "../../context/ResumeContext";
+import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../supabaseClient";
 
 const BasicInfoForm = () => {
     const { state, dispatch } = useResume();
     const { basicInfo } = state;
+    const { user } = useAuth();
+
+    useEffect(() => {
+        // Automatically fetch and fill if the user hasn't typed anything yet
+        const fetchProfileBasicInfo = async () => {
+            if (user && !basicInfo.name && !basicInfo.email && !basicInfo.phone) {
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('basic_info')
+                    .eq('id', user.id)
+                    .single();
+
+                if (data && data.basic_info) {
+                    dispatch({
+                        type: "UPDATE_BASIC_INFO",
+                        payload: data.basic_info,
+                    });
+                }
+            }
+        };
+        fetchProfileBasicInfo();
+    }, [user, basicInfo.name, basicInfo.email, basicInfo.phone, dispatch]);
 
     const handleChange = (e) => {
         dispatch({

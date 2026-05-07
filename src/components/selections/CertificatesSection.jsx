@@ -1,15 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useResume } from "../../context/ResumeContext";
+import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../supabaseClient";
 
 const CertificatesSection = () => {
     const { state, dispatch } = useResume();
     const { masterCertificates, selectedCertificates } = state;
+    const { user } = useAuth();
 
     const [newCert, setNewCert] = useState({
         id: null,
         name: "",
         url: "",
     });
+    const [profileCerts, setProfileCerts] = useState([]);
+    const [selectedProfileCertIndex, setSelectedProfileCertIndex] = useState("");
+
+    useEffect(() => {
+        if (user) {
+            const fetchProfileCerts = async () => {
+                const { data } = await supabase
+                    .from('profiles')
+                    .select('certificates')
+                    .eq('id', user.id)
+                    .single();
+                if (data && data.certificates) {
+                    setProfileCerts(data.certificates);
+                }
+            };
+            fetchProfileCerts();
+        }
+    }, [user]);
 
     const handleAddCert = () => {
         if (!newCert.name.trim()) return;
@@ -29,6 +50,22 @@ const CertificatesSection = () => {
         setNewCert({ id: null, name: "", url: "" });
     };
 
+    const handleAddFromProfile = () => {
+        if (selectedProfileCertIndex === "") return;
+        const cert = profileCerts[selectedProfileCertIndex];
+        
+        if (!masterCertificates.some(c => c.name === cert.name)) {
+            const newCertEntry = {
+                id: Date.now().toString(),
+                name: cert.name,
+                url: cert.url || "",
+            };
+            dispatch({ type: "ADD_CERTIFICATE", payload: newCertEntry });
+            dispatch({ type: "TOGGLE_CERTIFICATE", payload: newCertEntry });
+        }
+        setSelectedProfileCertIndex("");
+    };
+
     const handleEdit = (cert) => {
         setNewCert(cert);
     };
@@ -43,6 +80,27 @@ const CertificatesSection = () => {
 
     return (
         <div>
+            {profileCerts.length > 0 && (
+                <div className="add-skill-form" style={{ marginBottom: '15px', background: '#f8fafc', padding: '10px', borderRadius: '5px' }}>
+                    <small style={{ display: 'block', marginBottom: '5px' }}>Add from Your Profile:</small>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <select 
+                            value={selectedProfileCertIndex} 
+                            onChange={(e) => setSelectedProfileCertIndex(e.target.value)}
+                            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                        >
+                            <option value="">-- Select a certificate --</option>
+                            {profileCerts.map((cert, index) => (
+                                <option key={index} value={index}>{cert.name}</option>
+                            ))}
+                        </select>
+                        <button onClick={handleAddFromProfile} className="btn-add" disabled={selectedProfileCertIndex === ""}>
+                            Add
+                        </button>
+                    </div>
+                </div>
+            )}
+
             <div className="form-group">
                 <input
                     type="text"
@@ -67,10 +125,10 @@ const CertificatesSection = () => {
             <hr />
 
             <div className="skills-list">
-                {masterCertificates.map((cert) => {
+                {masterCertificates.map((cert, index) => {
                     const isSelected = selectedCertificates.some((c) => c.id === cert.id);
                     return (
-                        <div key={cert.id} className={`skill-item ${isSelected ? "selected" : ""}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div key={cert.id || index} className={`skill-item ${isSelected ? "selected" : ""}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <label style={{ display: "flex", width: "100%", alignItems: 'center' }}>
                                 <input
                                     type="checkbox"
