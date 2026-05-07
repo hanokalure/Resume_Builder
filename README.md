@@ -6,8 +6,8 @@ A modern, high-performance React application designed to help users create Appli
 
 ## 🚀 Key Features
 
--   **Secure Authentication**: Full Sign Up and Log In functionality using Supabase.
--   **Cloud Profiles**: Save your master resume data (Basic Info, Education, Experience, Projects, Skills, Certifications) securely in a cloud database.
+-   **Secure Authentication**: Full Sign Up and Log In functionality using Supabase, including one-click "Continue with Google" OAuth.
+-   **Cloud Profiles**: Save your master resume data (Basic Info, Education, Experience, Projects, Skills, Certifications) securely in a cloud database, featuring automatic profile generation for new Google users.
 -   **"Add from Profile" Workflow**: Build targeted resumes in seconds by pulling specific experiences and skills directly from your saved master profile.
 -   **Real-Time Preview**: See changes instantly as you type.
 -   **ATS-Optimized Layout**: Clean, single-column layout with standard fonts (Arial/Helvetica) and proper hierarchy to ensure high parseability by ATS software.
