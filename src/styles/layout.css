@@ -338,7 +338,7 @@ button {
 
   .panel-container {
     width: 100% !important;
-    height: calc(100vh - var(--nav-height));
+    height: 100%;
     display: none;
     /* Hide both by default */
   }
@@ -391,18 +391,14 @@ button {
 
   /* Remove smaller screen adjustments as we are scrolling now */
 
-  /* Mobile Navigation Bar */
   .mobile-nav {
     display: flex;
     height: var(--nav-height);
     background: white;
     border-top: 1px solid var(--border-color);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
     z-index: 1000;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
   }
 
   .nav-btn {
