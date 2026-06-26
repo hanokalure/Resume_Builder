@@ -90,11 +90,11 @@ const SkillsSection = () => {
             {profileSkills.length > 0 && (
                 <div className="add-skill-form" style={{ marginBottom: '15px', background: '#f8fafc', padding: '10px', borderRadius: '5px' }}>
                     <small style={{ display: 'block', marginBottom: '5px' }}>Add from Your Profile:</small>
-                    <div style={{ display: 'flex', gap: '10px' }}>
+                    <div className="profile-import-group">
                         <select 
                             value={selectedProfileSkill} 
                             onChange={(e) => setSelectedProfileSkill(e.target.value)}
-                            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                            style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ccc', width: '100%' }}
                         >
                             <option value="">-- Select a skill --</option>
                             {profileSkills.map(skill => (
